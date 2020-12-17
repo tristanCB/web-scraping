@@ -12,6 +12,12 @@ class PythonEventsSpider(scrapy.Spider):
     name = 'pythoneventsspider'
     start_urls = ['https://www.python.org/downloads/',]
     found_events = []
+    #     rules = (
+    #         # Extract links matching 'category.php' (but not matching 'subsection.php')
+    #         # and follow links from them (since no callback means follow=True by default).
+    #         Rule(LinkExtractor(allow=('wiki/')), callback='parse', follow=True)
+    #         # Extract links matching 'item.php' and parse them with the spider's method parse_item
+    #     )
     def parse(self, response):
         # Coming up with valid XPATH: 
         # https://www.softwaretestinghelp.com/xpath-writing-cheat-sheet-tutorial-examples/
@@ -27,12 +33,12 @@ class PythonEventsSpider(scrapy.Spider):
             event_details['pep'] = event.xpath('span[@class="release-pep"]/a/text()').extract_first()
             self.found_events.append(event_details)
 
-process = CrawlerProcess({ 'LOG_LEVEL': 'DEBUG'})
-process.crawl(PythonEventsSpider)
-spider = next(iter(process.crawlers)).spider
-process.start()
-for event in spider.found_events: 
-    print(event)
+# process = CrawlerProcess({ 'LOG_LEVEL': 'DEBUG'})
+# process.crawl(PythonEventsSpider)
+# spider = next(iter(process.crawlers)).spider
+# process.start()
+# for event in spider.found_events: 
+#     print(event)
 
 ### /Using scrapy ##############################################
 
